@@ -1,9 +1,6 @@
-
-var HelloWorldLayer = cc.Layer.extend({
-    sprite:null,
-    ctor:function () {
-        //////////////////////////////
-        // 1. super init first
+var MainLayer = cc.Layer.extend({
+    sprite: null,
+    ctor: function () {
         this._super();
 
         var size = cc.winSize;
@@ -24,11 +21,17 @@ var HelloWorldLayer = cc.Layer.extend({
     }
 });
 
-var HelloWorldScene = cc.Scene.extend({
-    onEnter:function () {
-        this._super();
-        var layer = new HelloWorldLayer();
-        this.addChild(layer);
+MainLayer.create = function () {
+    var sg = new MainLayer();
+    if (sg && sg.init(cc.c4b(255, 255, 255, 255))) {
+        return sg;
     }
-});
+    return null;
+};
 
+MainLayer.scene = function () {
+    var scene = cc.Scene.create();
+    var layer = MainLayer.create();
+    scene.addChild(layer);
+    return scene;
+};
