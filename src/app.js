@@ -1,21 +1,31 @@
 var MainLayer = cc.Layer.extend({
-    sprite: null,
+    _background: null,
+    _bird: null,
     ctor: function () {
         this._super();
 
         var size = cc.winSize;
 
-        var game_name = new cc.Sprite(res.game_name_png);
-        game_name.x = size.width / 2;
-        game_name.y = size.height / 2 + 200;
-        this.addChild(game_name, 5);
-
-        this.sprite = new cc.Sprite(res.background_png);
-        this.sprite.attr({
+        this._background = new cc.Sprite(res.background_png);
+        this._background.attr({
             x: size.width / 2,
             y: size.height / 2
         });
-        this.addChild(this.sprite, 0);
+        this.addChild(this._background, 0);
+
+        var logo = new cc.Sprite(res.game_name_png);
+        logo.attr({
+            x: size.width / 2,
+            y: size.height / 2 + 200
+        });
+        this.addChild(logo, 1);
+
+        this._bird = new cc.Sprite(res.bird1_png);
+        this._bird.attr({
+            x: size.width / 2,
+            y: size.height / 2 + 100
+        });
+        this.addChild(this._bird, 2);
 
         return true;
     }
