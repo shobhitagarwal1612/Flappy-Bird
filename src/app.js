@@ -6,25 +6,14 @@ var HelloWorldLayer = cc.Layer.extend({
         // 1. super init first
         this._super();
 
-        /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask the window size
         var size = cc.winSize;
 
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        var gameName = new cc.Sprite(res.GameName_png);
-        // position the label on the center of the screen
-        gameName.x = size.width / 2;
-        gameName.y = size.height / 2 + 200;
-        // add the label as a child to this layer
-        this.addChild(gameName, 5);
+        var game_name = new cc.Sprite(res.game_name_png);
+        game_name.x = size.width / 2;
+        game_name.y = size.height / 2 + 200;
+        this.addChild(game_name, 5);
 
-        // add "HelloWorld" splash screen"
-        this.sprite = new cc.Sprite(res.HelloWorld_png);
+        this.sprite = new cc.Sprite(res.background_png);
         this.sprite.attr({
             x: size.width / 2,
             y: size.height / 2
