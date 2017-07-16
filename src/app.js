@@ -27,6 +27,9 @@ var MainLayer = cc.Layer.extend({
         });
         this.addChild(this._bird, 2);
 
+        var bird_action = cc.MoveBy.create(2, cc.p(100, 0));
+        this._bird.runAction(bird_action);
+
         var play_button = new cc.Sprite(res.play_button_png);
         play_button.attr({
             x: size.width / 2,
