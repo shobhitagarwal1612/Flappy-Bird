@@ -1,5 +1,6 @@
 var res = {
-    HelloWorld_png : "res/HelloWorld.png",
+    HelloWorld_png : "res/main_background.png",
+    GameName_png : "res/game_name.png",
 };
 
 var g_resources = [];

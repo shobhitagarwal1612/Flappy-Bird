@@ -16,12 +16,12 @@ var HelloWorldLayer = cc.Layer.extend({
         // 3. add your codes below...
         // add a label shows "Hello World"
         // create and initialize a label
-        var helloLabel = new cc.LabelTTF("Hello World", "Arial", 38);
+        var gameName = new cc.Sprite(res.GameName_png);
         // position the label on the center of the screen
-        helloLabel.x = size.width / 2;
-        helloLabel.y = size.height / 2 + 200;
+        gameName.x = size.width / 2;
+        gameName.y = size.height / 2 + 200;
         // add the label as a child to this layer
-        this.addChild(helloLabel, 5);
+        this.addChild(gameName, 5);
 
         // add "HelloWorld" splash screen"
         this.sprite = new cc.Sprite(res.HelloWorld_png);
