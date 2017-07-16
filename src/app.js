@@ -27,6 +27,20 @@ var MainLayer = cc.Layer.extend({
         });
         this.addChild(this._bird, 2);
 
+        var play_button = new cc.Sprite(res.play_button_png);
+        play_button.attr({
+            x: size.width / 2,
+            y: size.height / 2
+        });
+        this.addChild(play_button, 3);
+
+        var road_base = new cc.Sprite(res.road_base_png);
+        road_base.attr({
+            x: size.width / 2,
+            y: (size.height / 2) - 250
+        });
+        this.addChild(road_base, 4);
+
         return true;
     }
 });
