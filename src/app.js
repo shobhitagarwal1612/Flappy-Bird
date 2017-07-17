@@ -261,7 +261,7 @@ var MainLayer = cc.Layer.extend({
         var size = cc.director.getWinSize();
 
         var newPipe = new PipeSprite(res.pipe_png);
-        newPipe.Initialise(pipeSpeed, size.width, pipeOffsetX, pipeInActiveX);
+        newPipe.Initialise(pipeSpeed, size.width, pipeOffsetX, pipeInActiveX, this._floor.height);
         this.addChild(newPipe, z_index_pipe);
         ArrayPipes[ArrayPipes.length] = newPipe;
         console.log('made tube num:' + ArrayPipes.length);

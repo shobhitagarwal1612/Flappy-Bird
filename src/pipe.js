@@ -6,6 +6,7 @@ var PipeSprite = cc.Sprite.extend({
     scored: false,
     inactiveX: 0,
     state: pipeStateInActive,
+    floor_height: 0,
 
     ctor: function (spriteFrameName) {
         this._super(spriteFrameName);
@@ -15,8 +16,8 @@ var PipeSprite = cc.Sprite.extend({
         this.stopAllActions();
         var distance = this.xOffset + this.screenWidth;
         var time = distance / this.pixelsPerSecond;
-        var destination = cc.p(-this.xOffset, this.y);
-        this.setPosition(this.xOffset + this.screenWidth, this.y);
+        var destination = cc.p(-this.xOffset, this.y  + this.floor_height);
+        this.setPosition(this.xOffset + this.screenWidth, this.y + this.floor_height);
         this.Visible = true;
 
         var actionMove = cc.moveTo(time, destination);
@@ -32,7 +33,7 @@ var PipeSprite = cc.Sprite.extend({
         this.scored = false;
     },
 
-    Initialise: function (speed, width, Xoffset, inactiveX) {
+    Initialise: function (speed, width, Xoffset, inactiveX, floor_height) {
         this.screenWidth = width;
         this.pixelsPerSecond = speed;
         this.Xoffset = Xoffset;
@@ -41,6 +42,7 @@ var PipeSprite = cc.Sprite.extend({
         this.y = 0;
         this.state = pipeStateActive;
         this.scored = false;
+        this.floor_height = floor_height;
     },
 
     ReachedDestination: function (sender) {
