@@ -42,6 +42,9 @@ var MainLayer = cc.Layer.extend({
         this._middleY = size.height / 2;
         this._processTouch = false;
 
+        this._lastSpawnTime = 0;
+        this._nextSpawnTime = 0;
+
         return true;
     },
 
@@ -67,6 +70,12 @@ var MainLayer = cc.Layer.extend({
 
         if (this._gameStarted) {
             this._gameTime += dt;
+            this._lastSpawnTime += dt;
+
+            if (this._lastSpawnTime > this._nextSpawnTime) {
+                console.log('spawn pipes');
+                this.SetSpawnTime();
+            }
 
             if (this._bird.y < this._floor.height) {
                 gameOver = true;
@@ -120,6 +129,7 @@ var MainLayer = cc.Layer.extend({
     StopGame: function () {
         this._gameStarted = false;
         this._gameTime = 0;
+        this._nextSpawnTime = 0.2;
     },
 
     GameOver: function () {
@@ -131,6 +141,12 @@ var MainLayer = cc.Layer.extend({
     ReEnableAfterGameOver: function () {
         this._bird.y = this._middleY;
         this._processTouch = true;
+    },
+
+    SetSpawnTime: function () {
+        this._lastSpawnTime = 0;
+        this._nextSpawnTime = Math.floor((Math.random() * pipeSpawnTimeVariance) + 1) / 10 + pipeSpawnMinTime;
+        console.log('next spawn time : ' + this._nextSpawnTime);
     }
 });
 
