@@ -45,7 +45,8 @@ var MainLayer = cc.Layer.extend({
         this._lastSpawnTime = 0;
         this._nextSpawnTime = 0;
 
-        return true;
+        this._lastPipeType = pipeTypeNone;
+        this._lastGetUnderY = 0;
     },
 
     onEnter: function () {
@@ -75,6 +76,7 @@ var MainLayer = cc.Layer.extend({
             if (this._lastSpawnTime > this._nextSpawnTime) {
                 console.log('spawn pipes');
                 this.SetSpawnTime();
+                this.SpawnNewPipes();
             }
 
             if (this._bird.y < this._floor.height) {
@@ -124,6 +126,8 @@ var MainLayer = cc.Layer.extend({
         this._bird.state = bird_state_moving;
         this._gameStarted = true;
         this._processTouch = true;
+        this._lastPipeType = pipeTypeNone;
+        this._lastGetUnderY = this._middleY;
     },
 
     StopGame: function () {
@@ -135,7 +139,7 @@ var MainLayer = cc.Layer.extend({
     GameOver: function () {
         this._processTouch = false;
         this.StopGame();
-        this.scheduleOnce(this.ReEnableAfterGameOver, ReenableTime);
+        this.scheduleOnce(this.ReEnableAfterGameOver, reenableTime);
     },
 
     ReEnableAfterGameOver: function () {
@@ -147,6 +151,69 @@ var MainLayer = cc.Layer.extend({
         this._lastSpawnTime = 0;
         this._nextSpawnTime = Math.floor((Math.random() * pipeSpawnTimeVariance) + 1) / 10 + pipeSpawnMinTime;
         console.log('next spawn time : ' + this._nextSpawnTime);
+    },
+
+    SpawnNewPipes: function () {
+        var ourChance = Math.floor((Math.random() * 3) + 1);
+
+        while (1) {
+            if (this._lastPipeType == pipeTypeUpper && ourChance == 1) {
+                ourChance = Math.floor((Math.random() * 3) + 1);
+            } else if (this._lastPipeType == pipeTypeLower && ourChance == 2) {
+                ourChance = Math.floor((Math.random() * 3) + 1);
+            } else if (this._lastPipeType == pipeTypePair && ourChance == 3) {
+                ourChance = Math.floor((Math.random() * 3) + 1);
+            } else {
+                break;
+            }
+        }
+
+        if (ourChance == 1) {
+            this.SpawnUpperOrLower(true);
+        } else if (ourChance == 2) {
+            this.SpawnUpperOrLower(false);
+        } else {
+            this.SpawnPipePair();
+        }
+    },
+
+    SpawnUpperOrLower: function (isUpper) {
+        var YMax, YMin;
+        if (isUpper) {
+            this._lastPipeType = pipeTypeUpper;
+            YMax = this._middleY;
+            YMin = singleGapBottom;
+        } else {
+            this._lastPipeType = pipeTypeLower;
+            YMax = singleGapTop;
+            YMin = this._middleY;
+            if (YMax - this._lastGetUnderY > pipeMaxUpPixels) {
+                YMax = this._lastGetUnderY + pipeMaxUpPixels;
+            }
+        }
+
+        var YRange = Math.abs(YMax - YMin);
+        var YPos = YMax - Math.floor(Math.random() * (YRange));
+
+        if (isUpper) {
+            this._lastGetUnderY = YPos;
+        } else {
+            this._lastGetUnderY = this._middleY;
+        }
+
+        console.log('SpawnUpperOrLower pipe isUpper:', isUpper, ' YPos:', YPos);
+    },
+
+    SpawnPipePair: function () {
+        this._lastPipeType = pipeTypePair;
+        var Gap = doubleGapMin + Math.floor(Math.random() * (doubleGapMax - doubleGapMin));
+        var YRange = doubleGapTop - Gap - doubleGapBottom;
+        var TopY = doubleGapTop - Math.floor(Math.random() * YRange);
+        var BottomY = TopY - Gap;
+
+        this._lastGetUnderY = TopY;
+
+        console.log('SpawnPipePair TopY:', TopY, ' BottomY:', BottomY);
     }
 });
 
