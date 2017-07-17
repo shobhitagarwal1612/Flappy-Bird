@@ -1,6 +1,5 @@
 var MainLayer = cc.Layer.extend({
     _background: null,
-    _bird: null,
     ctor: function () {
         this._super();
 
@@ -11,36 +10,26 @@ var MainLayer = cc.Layer.extend({
             x: size.width / 2,
             y: size.height / 2
         });
-        this.addChild(this._background, 0);
+        this.addChild(this._background, z_index_background);
 
         var logo = new cc.Sprite(res.game_name_png);
         logo.attr({
             x: size.width / 2,
             y: size.height / 2 + 200
         });
-        this.addChild(logo, 20);
-
-        this._bird = new cc.Sprite(res.bird1_png);
-        this._bird.attr({
-            x: size.width / 2,
-            y: size.height / 2 + 100
-        });
-        this.addChild(this._bird, 10);
-
-        var bird_action = cc.MoveBy.create(2, cc.p(100, 0));
-        this._bird.runAction(bird_action);
+        this.addChild(logo, z_index_label);
 
         var play_button = new cc.Sprite(res.play_button_png);
         play_button.attr({
             x: size.width / 2,
             y: size.height / 2
         });
-        this.addChild(play_button, 25);
+        this.addChild(play_button, z_index_button);
 
         var road_base = new cc.Sprite(res.road_base_png);
         road_base.setPosition(0, 0);
         road_base.setAnchorPoint(0, 0);
-        this.addChild(road_base, 5);
+        this.addChild(road_base, z_index_floor);
 
         return true;
     },
@@ -58,6 +47,7 @@ var MainLayer = cc.Layer.extend({
 
     onTouchBegan: function (touch, event) {
         var tp = touch.getLocation();
+        var tar = event.getCurrentTarget();
         console.log('onTouchBegan : ' + tp.x.toFixed(2) + ' , ' + tp.y.toFixed(2));
         return false;
     },

@@ -19,3 +19,14 @@
  for (var i in res) {
      g_resources.push(res[i]);
  }
+
+ var z_index_background = 0;
+ var z_index_label = 20;
+ var z_index_bird = 10;
+ var z_index_button = 15;
+ var z_index_floor = 5;
+
+ var bird_state_moving = 1;
+ var bird_state_stopped = 0;
+ var bird_start_speedY = 300;
+ var bird_startX = 240;
