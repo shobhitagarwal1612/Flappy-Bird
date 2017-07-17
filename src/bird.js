@@ -16,6 +16,7 @@ var BirdSprite = cc.Sprite.extend({
             newSpeed = this.speedY + gravity * dt;
 
             this.y = this.y + distance;
+            this.speedY = newSpeed;
 
             if (this.y > this.topOfScreen) {
                 this.y = this.topOfScreen;
