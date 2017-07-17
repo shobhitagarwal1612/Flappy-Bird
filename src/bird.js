@@ -21,12 +21,6 @@ var BirdSprite = cc.Sprite.extend({
                 this.y = this.topOfScreen;
                 this.speedY = 0.0;
             }
-
-            console.log(this.y);
-            console.log(distance);
-            console.log(newSpeed);
-            console.log(this.speedY);
-            console.log(this.topOfScreen);
         }
     },
 

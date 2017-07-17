@@ -54,7 +54,7 @@ var MainLayer = cc.Layer.extend({
     },
 
     onTick: function (dt) {
-        if (this._bird.y < this._floor.y) {
+        if (this._bird.y < this._floor.height) {
             this._bird.Reset();
             this._bird.y = cc.winSize.height / 2;
         }
