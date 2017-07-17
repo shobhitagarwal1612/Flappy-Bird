@@ -15,14 +15,14 @@ var MainLayer = cc.Layer.extend({
         var logo = new cc.Sprite(res.game_name_png);
         logo.attr({
             x: size.width / 2,
-            y: size.height / 2 + 200
+            y: size.height / 2 + 150
         });
         this.addChild(logo, z_index_label);
 
         var play_button = new cc.Sprite(res.play_button_png);
         play_button.attr({
             x: size.width / 2,
-            y: size.height / 2
+            y: size.height / 2 - 150
         });
         this.addChild(play_button, z_index_button);
 
@@ -30,6 +30,11 @@ var MainLayer = cc.Layer.extend({
         road_base.setPosition(0, 0);
         road_base.setAnchorPoint(0, 0);
         this.addChild(road_base, z_index_floor);
+
+        this._bird = new BirdSprite(res.bird1_png);
+        this._bird.x = bird_startX;
+        this._bird.y = size.height / 2;
+        this.addChild(this._bird, z_index_bird);
 
         return true;
     },
