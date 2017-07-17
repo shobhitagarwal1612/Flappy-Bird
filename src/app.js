@@ -1,16 +1,15 @@
 var MainLayer = cc.Layer.extend({
-    _background: null,
     ctor: function () {
         this._super();
 
         var size = cc.winSize;
 
-        this._background = new cc.Sprite(res.background_png);
-        this._background.attr({
+        var background = new cc.Sprite(res.background_png);
+        background.attr({
             x: size.width / 2,
             y: size.height / 2
         });
-        this.addChild(this._background, z_index_background);
+        this.addChild(background, z_index_background);
 
         var logo = new cc.Sprite(res.game_name_png);
         logo.attr({
@@ -26,14 +25,16 @@ var MainLayer = cc.Layer.extend({
         });
         this.addChild(play_button, z_index_button);
 
-        var road_base = new cc.Sprite(res.road_base_png);
-        road_base.setPosition(0, 0);
-        road_base.setAnchorPoint(0, 0);
-        this.addChild(road_base, z_index_floor);
+        this._floor = new cc.Sprite(res.road_base_png);
+        this._floor.setPosition(0, 0);
+        this._floor.setAnchorPoint(0, 0);
+        this.addChild(this._floor, z_index_floor);
 
         this._bird = new BirdSprite(res.bird1_png);
         this._bird.x = bird_startX;
         this._bird.y = size.height / 2;
+        this._bird.topOfScreen = size.height;
+        this._bird.Reset();
         this.addChild(this._bird, z_index_bird);
 
         return true;
@@ -48,12 +49,28 @@ var MainLayer = cc.Layer.extend({
             onTouchMove: this.onTouchMove,
             onTouchEnded: this.onTouchEnded,
         }, this);
+
+        this.schedule(this.onTick);
+    },
+
+    onTick: function (dt) {
+        if (this._bird.y < this._floor.y) {
+            this._bird.Reset();
+            this._bird.y = cc.winSize.height / 2;
+        }
+        this._bird.UpdateBird(dt);
     },
 
     onTouchBegan: function (touch, event) {
         var tp = touch.getLocation();
         var tar = event.getCurrentTarget();
         console.log('onTouchBegan : ' + tp.x.toFixed(2) + ' , ' + tp.y.toFixed(2));
+
+        if (tar._bird.state == bird_state_stopped) {
+            tar._bird.state = bird_state_moving;
+        }
+        tar._bird.SetStartSpeed();
+
         return false;
     },
 

@@ -30,3 +30,5 @@
  var bird_state_stopped = 0;
  var bird_start_speedY = 300;
  var bird_startX = 240;
+
+ var gravity = -620;
