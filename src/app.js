@@ -38,12 +38,39 @@ var MainLayer = cc.Layer.extend({
         this.addChild(play_button, res.play_button_png.z_index);
 
         var road_base = new cc.Sprite(res.road_base_png);
-        road_base.attr({
-            x: size.width / 2,
-            y: (size.height / 2) - 250
-        });
+        road_base.setPosition(0, 0);
+        road_base.setAnchorPoint(0, 0);
         this.addChild(road_base, res.road_base_png.z_index);
 
+        return true;
+    },
+
+    onEnter: function () {
+        this._super();
+        cc.eventManager.addListener({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            onTouchBegan: this.onTouchBegan,
+            onTouchMove: this.onTouchMove,
+            onTouchEnded: this.onTouchEnded,
+        }, this);
+    },
+
+    onTouchBegan: function (touch, event) {
+        var tp = touch.getLocation();
+        console.log('onTouchBegan : ' + tp.x.toFixed(2) + ' , ' + tp.y.toFixed(2));
+        return false;
+    },
+
+    onTouchMove: function (touch, event) {
+        var tp = touch.getLocation();
+        console.log('onTouchMove : ' + tp.x.toFixed(2) + ' , ' + tp.y.toFixed(2));
+        return true;
+    },
+
+    onTouchEnded: function (touch, event) {
+        var tp = touch.getLocation();
+        console.log('onTouchEnded : ' + tp.x.toFixed(2) + ' , ' + tp.y.toFixed(2));
         return true;
     }
 });
