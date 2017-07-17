@@ -11,21 +11,21 @@ var MainLayer = cc.Layer.extend({
             x: size.width / 2,
             y: size.height / 2
         });
-        this.addChild(this._background, res.background_png.z_index);
+        this.addChild(this._background, 0);
 
         var logo = new cc.Sprite(res.game_name_png);
         logo.attr({
             x: size.width / 2,
             y: size.height / 2 + 200
         });
-        this.addChild(logo, res.game_name_png.z_index);
+        this.addChild(logo, 20);
 
         this._bird = new cc.Sprite(res.bird1_png);
         this._bird.attr({
             x: size.width / 2,
             y: size.height / 2 + 100
         });
-        this.addChild(this._bird, 2);
+        this.addChild(this._bird, 10);
 
         var bird_action = cc.MoveBy.create(2, cc.p(100, 0));
         this._bird.runAction(bird_action);
@@ -35,12 +35,12 @@ var MainLayer = cc.Layer.extend({
             x: size.width / 2,
             y: size.height / 2
         });
-        this.addChild(play_button, res.play_button_png.z_index);
+        this.addChild(play_button, 25);
 
         var road_base = new cc.Sprite(res.road_base_png);
         road_base.setPosition(0, 0);
         road_base.setAnchorPoint(0, 0);
-        this.addChild(road_base, res.road_base_png.z_index);
+        this.addChild(road_base, 5);
 
         return true;
     },
