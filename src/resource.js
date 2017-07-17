@@ -62,3 +62,5 @@ var pipeInActiveX = -1000;
 var pipeScore = 1;
 
 var pipeMaxUpPixels = 180
+
+var pipeSpeed = 70.0;

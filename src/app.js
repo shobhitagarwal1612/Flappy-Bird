@@ -1,3 +1,5 @@
+var ArrayPipes = [];
+
 var MainLayer = cc.Layer.extend({
     ctor: function () {
         this._super();
@@ -122,6 +124,18 @@ var MainLayer = cc.Layer.extend({
         return true;
     },
 
+    StopPipes: function () {
+        for (var i = 0, len = ArrayPipes.length; i < len; i++) {
+            ArrayPipes[i].stopAllActions();
+        }
+    },
+
+    ClearPipes: function () {
+        for (var i = 0, len = ArrayPipes.length; i < len; i++) {
+            ArrayPipes[i].Stop();
+        }
+    },
+
     StartGame: function () {
         this._bird.state = bird_state_moving;
         this._gameStarted = true;
@@ -134,6 +148,7 @@ var MainLayer = cc.Layer.extend({
         this._gameStarted = false;
         this._gameTime = 0;
         this._nextSpawnTime = 0.2;
+        this.StopPipes();
     },
 
     GameOver: function () {
@@ -145,6 +160,7 @@ var MainLayer = cc.Layer.extend({
     ReEnableAfterGameOver: function () {
         this._bird.y = this._middleY;
         this._processTouch = true;
+        this.ClearPipes();
     },
 
     SetSpawnTime: function () {
@@ -202,6 +218,7 @@ var MainLayer = cc.Layer.extend({
         }
 
         console.log('SpawnUpperOrLower pipe isUpper:', isUpper, ' YPos:', YPos);
+        this.SpawnPipe(isUpper, YPos);
     },
 
     SpawnPipePair: function () {
@@ -214,6 +231,41 @@ var MainLayer = cc.Layer.extend({
         this._lastGetUnderY = TopY;
 
         console.log('SpawnPipePair TopY:', TopY, ' BottomY:', BottomY);
+        this.SpawnPipe(true, TopY);
+        this.SpawnPipe(false, BottomY);
+    },
+
+    SpawnPipe: function (isUpper, yPos) {
+        var pipe = this.GetNextPipe();
+
+        if (isUpper) {
+            pipe.setAnchorPoint(0.5, 0);
+            pipe.setFlippedY(false);
+        } else {
+            pipe.setAnchorPoint(0.5, 1);
+            pipe.setFlippedY(true);
+        }
+
+        pipe.y = yPos;
+        pipe.Start();
+    },
+
+    GetNextPipe: function () {
+        for (var i = 0, len = ArrayPipes.length; i < len; i++) {
+            if (ArrayPipes[i].state == pipeStateInActive) {
+                console.log('found resuable pipe');
+                return ArrayPipes[i];
+            }
+        }
+
+        var size = cc.director.getWinSize();
+
+        var newPipe = new PipeSprite(res.pipe_png);
+        newPipe.Initialise(pipeSpeed, size.width, pipeOffsetX, pipeInActiveX);
+        this.addChild(newPipe, z_index_pipe);
+        ArrayPipes[ArrayPipes.length] = newPipe;
+        console.log('made tube num:' + ArrayPipes.length);
+        return newPipe;
     }
 });
 
