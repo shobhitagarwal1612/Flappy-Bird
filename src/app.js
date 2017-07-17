@@ -37,6 +37,11 @@ var MainLayer = cc.Layer.extend({
         this._bird.Reset();
         this.addChild(this._bird, z_index_bird);
 
+        this._gameTime = 0;
+        this._gameStarted = false;
+        this._middleY = size.height / 2;
+        this._processTouch = false;
+
         return true;
     },
 
@@ -51,20 +56,40 @@ var MainLayer = cc.Layer.extend({
         }, this);
 
         this.schedule(this.onTick);
+
+        this.StopGame();
+        this._processTouch = true;
     },
 
     onTick: function (dt) {
-        if (this._bird.y < this._floor.height) {
-            this._bird.Reset();
-            this._bird.y = cc.winSize.height / 2;
+
+        var gameOver = false;
+
+        if (this._gameStarted) {
+            this._gameTime += dt;
+
+            if (this._bird.y < this._floor.height) {
+                gameOver = true;
+            }
+
+            if (!gameOver) {
+                this._bird.UpdateBird(dt);
+            } else {
+                this.GameOver();
+            }
         }
-        this._bird.UpdateBird(dt);
     },
 
     onTouchBegan: function (touch, event) {
         var tp = touch.getLocation();
         var tar = event.getCurrentTarget();
-        console.log('onTouchBegan : ' + tp.x.toFixed(2) + ' , ' + tp.y.toFixed(2));
+
+        if (tar._processTouch) {
+            tar._bird.SetStartSpeed();
+            if (!tar._gameStarted) {
+                tar.StartGame();
+            }
+        }
 
         if (tar._bird.state == bird_state_stopped) {
             tar._bird.state = bird_state_moving;
@@ -84,6 +109,28 @@ var MainLayer = cc.Layer.extend({
         var tp = touch.getLocation();
         console.log('onTouchEnded : ' + tp.x.toFixed(2) + ' , ' + tp.y.toFixed(2));
         return true;
+    },
+
+    StartGame: function () {
+        this._bird.state = bird_state_moving;
+        this._gameStarted = true;
+        this._processTouch = true;
+    },
+
+    StopGame: function () {
+        this._gameStarted = false;
+        this._gameTime = 0;
+    },
+
+    GameOver: function () {
+        this._processTouch = false;
+        this.StopGame();
+        this.scheduleOnce(this.ReEnableAfterGameOver, ReenableTime);
+    },
+
+    ReEnableAfterGameOver: function () {
+        this._bird.y = this._middleY;
+        this._processTouch = true;
     }
 });
 

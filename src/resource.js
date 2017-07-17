@@ -32,3 +32,5 @@
  var bird_startX = 240;
 
  var gravity = -620;
+ 
+ var ReenableTime = 1;
