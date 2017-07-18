@@ -4,7 +4,7 @@ var res = {
     game_over_png: "res/game_over.png",
     get_ready_png: "res/get_ready.png",
     medal_gold_png: "res/medal_gold.png",
-    medal_silver: "res/medal_silver.png",
+    medal_silver_png: "res/medal_silver.png",
     pipe_png: "res/pipe.png",
     play_button_png: "res/play_button.png",
     result_board_png: "res/result_board.png",
@@ -70,7 +70,7 @@ var pipeMaxUpPixels = 180;
 var pipeSpeed = 70.0;
 
 var fontSizeGameOver = 48;
-var fontSizeScore = 24;
+var fontSizeScore = 32;
 var fontName = 'Courier';
 var scoreX = 20;
 var scoreY = 20;

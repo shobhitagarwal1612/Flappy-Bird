@@ -59,8 +59,18 @@ var MainLayer = cc.Layer.extend({
         this._score = 0;
         this._highScore = 0;
 
-        this._gameOverLabel = this.addLabel("Game Over!", size.width / 2, size.height / 2, false, z_index_bird, cc.color.RED, fontSizeGameOver);
-        this._gameStartLabel = this.addLabel("Tap to start", size.width / 2, size.height / 3 * 2, true, z_index_bird, cc.color.RED, fontSizeGameOver);
+        this._gameOverLabel = new cc.Sprite(res.game_over_png);
+        this._gameOverLabel.x = size.width / 2;
+        this._gameOverLabel.y = size.height / 2 * 1.5;
+        this._gameOverLabel.visible = false;
+        this.addChild(this._gameOverLabel, z_index_bird);
+
+        this._resultBoard = new ResultLayer();
+        this._resultBoard.x = size.width / 2;
+        this._resultBoard.y = size.height / 2;
+        this._resultBoard.visible = false;
+        this.addChild(this._resultBoard, z_index_bird);
+
         this._scoreLabel = this.addLabel("00000", scoreX, size.height - scoreY, true, z_index_bird, cc.color.RED, fontSizeScore);
         this._scoreLabel.setAnchorPoint(0, 1);
         this._highScoreLabel = this.addLabel("10000", scoreX, size.height - scoreY * 3, true, z_index_bird, cc.color.RED, fontSizeScore);
@@ -210,7 +220,6 @@ var MainLayer = cc.Layer.extend({
         this._processTouch = true;
         this._lastPipeType = pipeTypeNone;
         this._lastGetUnderY = this._middleY;
-        this._gameStartLabel.visible = false;
         this._play_button.visible = false;
         this._logo.visible = false;
         this._floor.Start(this._floor);
@@ -226,8 +235,10 @@ var MainLayer = cc.Layer.extend({
 
     GameOver: function () {
         console.log('game over');
+        this._resultBoard.setScore(this._score, this._highScore);
         this._processTouch = false;
         this._gameOverLabel.visible = true;
+        this._resultBoard.visible = true;
         this.StopGame();
         this.scheduleOnce(this.ReEnableAfterGameOver, reenableTime);
     },
@@ -236,7 +247,7 @@ var MainLayer = cc.Layer.extend({
         this._bird.y = this._middleY;
         this._processTouch = true;
         this._gameOverLabel.visible = false;
-        this._gameStartLabel.visible = true;
+        this._resultBoard.visible = false;
         this._play_button.visible = true;
         this._logo.visible = true;
         this.ClearPipes();
