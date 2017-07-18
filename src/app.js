@@ -13,19 +13,19 @@ var MainLayer = cc.Layer.extend({
         });
         this.addChild(background, z_index_background);
 
-        var logo = new cc.Sprite(res.game_name_png);
-        logo.attr({
+        this._logo = new cc.Sprite(res.game_name_png);
+        this._logo.attr({
             x: size.width / 2,
             y: size.height / 2 + 150
         });
-        this.addChild(logo, z_index_label);
+        this.addChild(this._logo, z_index_label);
 
-        var play_button = new cc.Sprite(res.play_button_png);
-        play_button.attr({
+        this._play_button = new cc.Sprite(res.play_button_png);
+        this._play_button.attr({
             x: size.width / 2,
             y: size.height / 2 - 150
         });
-        this.addChild(play_button, z_index_button);
+        this.addChild(this._play_button, z_index_button);
 
         this._floor = new cc.Sprite(res.road_base_png);
         this._floor.setPosition(0, 0);
@@ -49,6 +49,19 @@ var MainLayer = cc.Layer.extend({
 
         this._lastPipeType = pipeTypeNone;
         this._lastGetUnderY = 0;
+
+        this._gameOverLabel = this.addLabel("Game Over!", size.width / 2, size.height / 2, 0, z_index_bird, cc.color.RED, fontSizeGameOver);
+        this._gameStartLabel = this.addLabel("Tap to start", size.width / 2, size.height / 3 * 2, 1, z_index_bird, cc.color.RED, fontSizeGameOver);
+    },
+
+    addLabel: function (text, x, y, visible, zIndex, color, fsize) {
+        var label = new cc.LabelTTF(text, fontName, fsize);
+        label.setPosition(x, y);
+        label.color = color;
+        label.visible = visible;
+        this.addChild(label, zIndex);
+        console.log('label added');
+        return label;
     },
 
     onEnter: function () {
@@ -157,6 +170,9 @@ var MainLayer = cc.Layer.extend({
         this._processTouch = true;
         this._lastPipeType = pipeTypeNone;
         this._lastGetUnderY = this._middleY;
+        this._gameStartLabel.visible = false;
+        this._play_button.visible = false;
+        this._logo.visible = false;
     },
 
     StopGame: function () {
@@ -168,6 +184,7 @@ var MainLayer = cc.Layer.extend({
 
     GameOver: function () {
         this._processTouch = false;
+        this._gameOverLabel.visible = true;
         this.StopGame();
         this.scheduleOnce(this.ReEnableAfterGameOver, reenableTime);
     },
@@ -175,6 +192,11 @@ var MainLayer = cc.Layer.extend({
     ReEnableAfterGameOver: function () {
         this._bird.y = this._middleY;
         this._processTouch = true;
+        this._gameOverLabel.visible = false;
+        this._gameStartLabel.visible = true;
+        this._play_button.visible = true;
+        this._logo.visible = true;
+
         this.ClearPipes();
     },
 

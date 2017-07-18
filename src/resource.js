@@ -35,7 +35,7 @@ var bird_startX = 240;
 var gravity = -620;
 
 var reenableTime = 2.5;
-var pipeSpawnMinTime = 2.3;
+var pipeSpawnMinTime = 2.5;
 var pipeSpawnTimeVariance = 8;
 
 var singleGapTop = 440;
@@ -64,3 +64,9 @@ var pipeScore = 1;
 var pipeMaxUpPixels = 180;
 
 var pipeSpeed = 70.0;
+
+var fontSizeGameOver = 48;
+var fontSizeScore = 24;
+var fontName = 'Courier';
+var scoreX = 20;
+var scoreY = 20;
