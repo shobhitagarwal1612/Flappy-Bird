@@ -266,7 +266,7 @@ var MainLayer = cc.Layer.extend({
             }
         }
 
-        var size = cc.director.getWinSize();
+        var size = cc.winSize;
 
         var newPipe = new PipeSprite(res.pipe_png);
         newPipe.Initialise(pipeSpeed, size.width, pipeOffsetX, pipeInActiveX, this._floor.height);

@@ -14,10 +14,11 @@ var PipeSprite = cc.Sprite.extend({
 
     Start: function () {
         this.stopAllActions();
+        this.state = pipeStateActive;
         var distance = this.xOffset + this.screenWidth;
         var time = distance / this.pixelsPerSecond;
-        var destination = cc.p(-this.xOffset, this.y  + this.floor_height);
-        this.setPosition(this.xOffset + this.screenWidth, this.y + this.floor_height);
+        var destination = cc.p(-this.xOffset, this.y);
+        this.setPosition(this.xOffset + this.screenWidth, this.y);
         this.Visible = true;
 
         var actionMove = cc.moveTo(time, destination);
@@ -39,7 +40,7 @@ var PipeSprite = cc.Sprite.extend({
         this.Xoffset = Xoffset;
         this.inactiveX = inactiveX;
         this.x = inactiveX;
-        this.y = 0;
+        this.y = this.floor_height;
         this.state = pipeStateActive;
         this.scored = false;
         this.floor_height = floor_height;
