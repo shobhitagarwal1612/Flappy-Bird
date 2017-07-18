@@ -127,7 +127,8 @@ var MainLayer = cc.Layer.extend({
                             gameOver = true;
                         } else if (!pipe.scored && (pipe.getBoundingBox().x + pipe.getBoundingBox().width) <
                             this._bird.getBoundingBox().x) {
-                            pipe.scored = true;
+                            ArrayPipes[i].scored = true;
+                            ArrayPipes[i + 1].scored = true;
                             this._score += pipeScore;
                             this.setScoreLabels();
                         }
