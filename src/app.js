@@ -50,8 +50,12 @@ var MainLayer = cc.Layer.extend({
         this._lastPipeType = pipeTypeNone;
         this._lastGetUnderY = 0;
 
-        this._gameOverLabel = this.addLabel("Game Over!", size.width / 2, size.height / 2, 0, z_index_bird, cc.color.RED, fontSizeGameOver);
-        this._gameStartLabel = this.addLabel("Tap to start", size.width / 2, size.height / 3 * 2, 1, z_index_bird, cc.color.RED, fontSizeGameOver);
+        this._gameOverLabel = this.addLabel("Game Over!", size.width / 2, size.height / 2, false, z_index_bird, cc.color.RED, fontSizeGameOver);
+        this._gameStartLabel = this.addLabel("Tap to start", size.width / 2, size.height / 3 * 2, true, z_index_bird, cc.color.RED, fontSizeGameOver);
+        this._scoreLabel = this.addLabel("00000", scoreX, size.height - scoreY, true, z_index_bird, cc.color.RED, fontSizeScore);
+        this._scoreLabel.setAnchorPoint(0, 1);
+        this._highScoreLabel = this.addLabel("10000", scoreX, size.height - scoreY * 3, true, z_index_bird, cc.color.RED, fontSizeScore);
+        this._highScoreLabel.setAnchorPoint(0, 1);
     },
 
     addLabel: function (text, x, y, visible, zIndex, color, fsize) {
