@@ -71,10 +71,12 @@ var MainLayer = cc.Layer.extend({
         this._resultBoard.visible = false;
         this.addChild(this._resultBoard, z_index_bird);
 
-        this._scoreLabel = this.addLabel("00000", scoreX, size.height - scoreY, true, z_index_bird, cc.color.RED, fontSizeScore);
+        this._scoreLabel = new cc.LabelTTF("0", fontName, fontSizeScore);
+        this._scoreLabel.setPosition(size.width / 2, size.height - 100);
         this._scoreLabel.setAnchorPoint(0, 1);
-        this._highScoreLabel = this.addLabel("10000", scoreX, size.height - scoreY * 3, true, z_index_bird, cc.color.RED, fontSizeScore);
-        this._highScoreLabel.setAnchorPoint(0, 1);
+        this._scoreLabel.color = cc.color.WHITE;
+        this._scoreLabel.visible = false;
+        this.addChild(this._scoreLabel, z_index_bird);
 
         this.setScoreLabels();
     },
@@ -82,16 +84,10 @@ var MainLayer = cc.Layer.extend({
     setScoreLabels: function () {
         console.log('setScoreLabels():: Score:', this._score, ', Highscore:', this._highScore);
         this._scoreLabel.string = this._score.toString();
-        this._highScoreLabel.string = this._highScore.toString();
     },
 
     addLabel: function (text, x, y, visible, zIndex, color, fsize) {
-        var label = new cc.LabelTTF(text, fontName, fsize);
-        label.setPosition(x, y);
-        label.color = color;
-        label.visible = visible;
-        this.addChild(label, zIndex);
-        return label;
+
     },
 
     onEnter: function () {
@@ -200,6 +196,23 @@ var MainLayer = cc.Layer.extend({
         }
         tar._bird.SetStartSpeed();
 
+
+       /*  var angle = 0;
+        if (tar._bird.speedY >= 0) {
+            angle = 0.1;
+        } else {
+            angle = -0.1;
+        }
+
+        if (angle > 45) {
+            angle = 45;
+        } else if (angle < -90) {
+            angle = -90;
+        }
+
+        var rotate = cc.RotateBy.create(0.2, tar._bird.rotation + angle);
+        tar._bird.runAction(rotate); */
+
     },
 
     StopPipes: function () {
@@ -222,12 +235,14 @@ var MainLayer = cc.Layer.extend({
         this._lastGetUnderY = this._middleY;
         this._play_button.visible = false;
         this._logo.visible = false;
+        this._scoreLabel.visible = true;
     },
 
     StopGame: function () {
         this._gameStarted = false;
         this._gameTime = 0;
         this._nextSpawnTime = 0.2;
+        this._scoreLabel.visible = false;
         this.StopPipes();
     },
 

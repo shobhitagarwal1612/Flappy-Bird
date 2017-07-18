@@ -14,7 +14,6 @@ var ResultLayer = cc.Layer.extend({
         this._scoreLabel = this.addLabel("0", 120, 22);
         this._highScoreLabel = this.addLabel("0", 120, -45);
 
-        console.log(this._scoreLabel);
         this.addChild(this._result_board, 0);
     },
 

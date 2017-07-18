@@ -69,5 +69,3 @@ var pipeSpeed = 70.0;
 var fontSizeGameOver = 48;
 var fontSizeScore = 32;
 var fontName = 'Courier';
-var scoreX = 20;
-var scoreY = 20;
