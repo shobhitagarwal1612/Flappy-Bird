@@ -1,5 +1,4 @@
 var FloorLayer = cc.Layer.extend({
-    state: floor_state_stopped,
     sprite: null,
     sprite2: null,
     screenWidth: 0,
@@ -37,7 +36,6 @@ var FloorLayer = cc.Layer.extend({
     Start: function () {
         this.Reset();
 
-        this.state = floor_state_moving;
         var time = this.screenWidth / pipeMaxUpPixels;
 
         var destination = cc.p(-this.sprite.width, 0);
@@ -49,12 +47,5 @@ var FloorLayer = cc.Layer.extend({
         var destination2 = cc.p(0, 0);
         var actionMove2 = cc.moveTo(time * 3, destination2);
         this.sprite2.runAction(actionMove2);
-    },
-
-    Stop: function () {
-        console.log('stop moving floor');
-        this.sprite.stopAllActions();
-        this.sprite2.stopAllActions();
-        this.state = floor_state_stopped;
     }
 });

@@ -33,9 +33,6 @@ var bird_state_stopped = 0;
 var bird_start_speedY = 300;
 var bird_startX = 240;
 
-var floor_state_moving = 0;
-var floor_state_stopped = 1;
-
 var gravity = -620;
 
 var reenableTime = 2.5;
