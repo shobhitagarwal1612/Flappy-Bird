@@ -90,14 +90,19 @@ var MainLayer = cc.Layer.extend({
             event: cc.EventListener.TOUCH_ONE_BY_ONE,
             swallowTouches: true,
             onTouchBegan: this.onTouchBegan,
-            onTouchMove: this.onTouchMove,
+            onTouchEnded: this.onTouchEnded,
+        }, this._play_button);
+
+        cc.eventManager.addListener({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            onTouchBegan: this.onTouchBegan,
             onTouchEnded: this.onTouchEnded,
         }, this);
 
         this.schedule(this.onTick);
 
         this.StopGame();
-        this._processTouch = true;
     },
 
     onTick: function (dt) {
@@ -149,8 +154,29 @@ var MainLayer = cc.Layer.extend({
     },
 
     onTouchBegan: function (touch, event) {
-        var tp = touch.getLocation();
+        var target = event.getCurrentTarget();
+
+        var locationInNode = target.convertToNodeSpace(touch.getLocation());
+        var s = target.getContentSize();
+        var rect = cc.rect(0, 0, s.width, s.height);
+
+        if (cc.rectContainsPoint(rect, locationInNode)) {
+            target.opacity = 200;
+            return true;
+        }
+        return false;
+    },
+
+    onTouchEnded: function (touch, event) {
         var tar = event.getCurrentTarget();
+        tar.setOpacity(255);
+
+        if (tar._play_button == undefined) {
+            tar = tar.parent;
+            tar._processTouch = true;
+        } else {
+            tar._processTouch = false;
+        }
 
         if (tar._processTouch) {
             tar._bird.SetStartSpeed();
@@ -164,19 +190,6 @@ var MainLayer = cc.Layer.extend({
         }
         tar._bird.SetStartSpeed();
 
-        return false;
-    },
-
-    onTouchMove: function (touch, event) {
-        var tp = touch.getLocation();
-        console.log('onTouchMove : ' + tp.x.toFixed(2) + ' , ' + tp.y.toFixed(2));
-        return true;
-    },
-
-    onTouchEnded: function (touch, event) {
-        var tp = touch.getLocation();
-        console.log('onTouchEnded : ' + tp.x.toFixed(2) + ' , ' + tp.y.toFixed(2));
-        return true;
     },
 
     StopPipes: function () {
