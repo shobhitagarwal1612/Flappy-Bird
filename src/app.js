@@ -1,10 +1,14 @@
 var ArrayPipes = [];
 
 var MainLayer = cc.Layer.extend({
+
+    screenWidth: 0,
+
     ctor: function () {
         this._super();
 
         var size = cc.winSize;
+        this.screenWidth = size.width;
 
         var background = new cc.Sprite(res.background_png);
         background.attr({
@@ -27,7 +31,8 @@ var MainLayer = cc.Layer.extend({
         });
         this.addChild(this._play_button, z_index_button);
 
-        this._floor = new cc.Sprite(res.road_base_png);
+        this._floor = new FloorLayer();
+        this._floor.Setup(this.screenWidth);
         this._floor.setPosition(0, 0);
         this._floor.setAnchorPoint(0, 0);
         this.addChild(this._floor, z_index_floor);
@@ -109,7 +114,7 @@ var MainLayer = cc.Layer.extend({
                 this.SpawnNewPipes();
             }
 
-            if (this._bird.y < this._floor.height) {
+            if (this._bird.y < this._floor.sprite.height) {
                 gameOver = true;
             } else {
                 var BirdCollisionBox = new cc.Rect(
@@ -195,6 +200,7 @@ var MainLayer = cc.Layer.extend({
         this._gameStartLabel.visible = false;
         this._play_button.visible = false;
         this._logo.visible = false;
+        this._floor.Start();
     },
 
     StopGame: function () {
@@ -202,9 +208,11 @@ var MainLayer = cc.Layer.extend({
         this._gameTime = 0;
         this._nextSpawnTime = 0.2;
         this.StopPipes();
+        this._floor.Stop();
     },
 
     GameOver: function () {
+        console.log('game over');
         this._processTouch = false;
         this._gameOverLabel.visible = true;
         this.StopGame();
@@ -310,7 +318,7 @@ var MainLayer = cc.Layer.extend({
             pipe.setFlippedY(true);
         }
 
-        pipe.y = yPos + this._floor.height;
+        pipe.y = yPos + this._floor.sprite.height;
         pipe.Start();
     },
 
@@ -325,7 +333,7 @@ var MainLayer = cc.Layer.extend({
         var size = cc.winSize;
 
         var newPipe = new PipeSprite(res.pipe_png);
-        newPipe.Initialise(pipeSpeed, size.width, pipeOffsetX, pipeInActiveX, this._floor.height);
+        newPipe.Initialise(pipeSpeed, size.width, pipeOffsetX, pipeInActiveX, this._floor.sprite.height);
         this.addChild(newPipe, 2);
         ArrayPipes[ArrayPipes.length] = newPipe;
         console.log('made tube num:' + ArrayPipes.length);

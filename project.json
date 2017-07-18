@@ -15,6 +15,7 @@
         "src/resource.js",
         "src/bird.js",
         "src/pipe.js",
+        "src/floor.js",
         "src/app.js"
     ]
 }
