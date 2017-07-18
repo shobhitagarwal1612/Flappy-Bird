@@ -50,12 +50,22 @@ var MainLayer = cc.Layer.extend({
         this._lastPipeType = pipeTypeNone;
         this._lastGetUnderY = 0;
 
+        this._score = 0;
+        this._highScore = 0;
+
         this._gameOverLabel = this.addLabel("Game Over!", size.width / 2, size.height / 2, false, z_index_bird, cc.color.RED, fontSizeGameOver);
         this._gameStartLabel = this.addLabel("Tap to start", size.width / 2, size.height / 3 * 2, true, z_index_bird, cc.color.RED, fontSizeGameOver);
         this._scoreLabel = this.addLabel("00000", scoreX, size.height - scoreY, true, z_index_bird, cc.color.RED, fontSizeScore);
         this._scoreLabel.setAnchorPoint(0, 1);
         this._highScoreLabel = this.addLabel("10000", scoreX, size.height - scoreY * 3, true, z_index_bird, cc.color.RED, fontSizeScore);
         this._highScoreLabel.setAnchorPoint(0, 1);
+
+        this.setScoreLabels();
+    },
+
+    setScoreLabels: function () {
+        this._scoreLabel.string = this._score.toString();
+        this._highScoreLabel.string = this._highScore.toString();
     },
 
     addLabel: function (text, x, y, visible, zIndex, color, fsize) {
@@ -200,8 +210,13 @@ var MainLayer = cc.Layer.extend({
         this._gameStartLabel.visible = true;
         this._play_button.visible = true;
         this._logo.visible = true;
-
         this.ClearPipes();
+
+        if (this._score > this._highScore) {
+            this._highScore = this._score;
+        }
+        this._score = 0;
+        this.setScoreLabels();
     },
 
     SetSpawnTime: function () {
