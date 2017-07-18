@@ -34,9 +34,4 @@ var BirdSprite = cc.Sprite.extend({
     SetStartSpeed: function () {
         this.speedY = bird_start_speedY;
     },
-
-    TubeCollisionBox: function () {
-
-    }
-
 });

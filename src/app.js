@@ -84,7 +84,14 @@ var MainLayer = cc.Layer.extend({
             if (this._bird.y < this._floor.height) {
                 gameOver = true;
             } else {
-                var BirdCollisionBox = this._bird.getBoundingBox();
+
+                var BirdCollisionBox = new cc.Rect(
+                    this._bird.getBoundingBox().x + 25,
+                    this._bird.getBoundingBox().y + 5,
+                    this._bird.getBoundingBox().width - 30,
+                    this._bird.getBoundingBox().height - 20
+                );
+
                 for (var i = 0, len = ArrayPipes.length; i < len; i++) {
                     if (cc.rectIntersectsRect(ArrayPipes[i].getBoundingBox(), BirdCollisionBox)) {
                         console.log('collision');
