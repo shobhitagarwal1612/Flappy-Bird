@@ -261,7 +261,7 @@ var MainLayer = cc.Layer.extend({
             pipe.setFlippedY(true);
         }
 
-        pipe.y = yPos;
+        pipe.y = yPos + this._floor.height;
         pipe.Start();
     },
 
