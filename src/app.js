@@ -32,9 +32,10 @@ var MainLayer = cc.Layer.extend({
         this._floor.setAnchorPoint(0, 0);
         this.addChild(this._floor, z_index_floor);
 
-        this._bird = new BirdSprite(res.bird1_png);
+        this._bird = new BirdLayer();
         this._bird.x = bird_startX;
         this._bird.y = size.height / 2;
+        this._bird.setAnchorPoint(0, 0);
         this._bird.topOfScreen = size.height;
         this._bird.Reset();
         this.addChild(this._bird, z_index_bird);
@@ -111,12 +112,11 @@ var MainLayer = cc.Layer.extend({
             if (this._bird.y < this._floor.height) {
                 gameOver = true;
             } else {
-
                 var BirdCollisionBox = new cc.Rect(
-                    this._bird.getBoundingBox().x + 25,
-                    this._bird.getBoundingBox().y + 5,
-                    this._bird.getBoundingBox().width - 30,
-                    this._bird.getBoundingBox().height - 20
+                    this._bird.x + this._bird.sprite.getBoundingBox().x + 25,
+                    this._bird.y + this._bird.sprite.getBoundingBox().y + 5,
+                    this._bird.sprite.width - 30,
+                    this._bird.sprite.height - 20
                 );
 
                 for (var i = 0, len = ArrayPipes.length; i < len; i++) {
@@ -126,9 +126,8 @@ var MainLayer = cc.Layer.extend({
                             console.log('collision');
                             gameOver = true;
                         } else if (!pipe.scored && (pipe.getBoundingBox().x + pipe.getBoundingBox().width) <
-                            this._bird.getBoundingBox().x) {
+                            this._bird.sprite.getBoundingBox().x) {
                             ArrayPipes[i].scored = true;
-                            ArrayPipes[i + 1].scored = true;
                             this._score += pipeScore;
                             this.setScoreLabels();
                         }

@@ -13,6 +13,8 @@ var res = {
     result_board_png: "res/result_board.png",
     road_base_png: "res/road_base.png",
     tap_tap_png: "res/tap_tap.png",
+    flapping_flappy_png: "res/flapping_flappy.png",
+    flapping_flappy_plist: "res/flapping_flappy.plist",
 };
 
 var g_resources = [];
@@ -26,6 +28,8 @@ var z_index_bird = 100;
 var z_index_button = 15;
 var z_index_floor = 10;
 var z_index_pipe = 4;
+
+var animation_time = 1;
 
 var bird_state_moving = 1;
 var bird_state_stopped = 0;
