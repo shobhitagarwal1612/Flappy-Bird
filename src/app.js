@@ -64,6 +64,7 @@ var MainLayer = cc.Layer.extend({
     },
 
     setScoreLabels: function () {
+        console.log('setScoreLabels():: Score:', this._score, ', Highscore:', this._highScore);
         this._scoreLabel.string = this._score.toString();
         this._highScoreLabel.string = this._highScore.toString();
     },
@@ -74,7 +75,6 @@ var MainLayer = cc.Layer.extend({
         label.color = color;
         label.visible = visible;
         this.addChild(label, zIndex);
-        console.log('label added');
         return label;
     },
 
@@ -120,9 +120,17 @@ var MainLayer = cc.Layer.extend({
                 );
 
                 for (var i = 0, len = ArrayPipes.length; i < len; i++) {
-                    if (cc.rectIntersectsRect(ArrayPipes[i].getBoundingBox(), BirdCollisionBox)) {
-                        console.log('collision');
-                        gameOver = true;
+                    var pipe = ArrayPipes[i];
+                    if (pipe.state == pipeStateActive) {
+                        if (cc.rectIntersectsRect(pipe.getBoundingBox(), BirdCollisionBox)) {
+                            console.log('collision');
+                            gameOver = true;
+                        } else if (!pipe.scored && (pipe.getBoundingBox().x + pipe.getBoundingBox().width) <
+                            this._bird.getBoundingBox().x) {
+                            pipe.scored = true;
+                            this._score += pipeScore;
+                            this.setScoreLabels();
+                        }
                     }
                 }
             }
@@ -309,7 +317,7 @@ var MainLayer = cc.Layer.extend({
     GetNextPipe: function () {
         for (var i = 0, len = ArrayPipes.length; i < len; i++) {
             if (ArrayPipes[i].state == pipeStateInActive) {
-                console.log('found resuable pipe');
+                console.log('found reusable pipe');
                 return ArrayPipes[i];
             }
         }
