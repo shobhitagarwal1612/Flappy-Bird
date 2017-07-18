@@ -200,7 +200,7 @@ var MainLayer = cc.Layer.extend({
         this._gameStartLabel.visible = false;
         this._play_button.visible = false;
         this._logo.visible = false;
-        this._floor.Start();
+        this._floor.Start(this._floor);
     },
 
     StopGame: function () {
@@ -227,6 +227,7 @@ var MainLayer = cc.Layer.extend({
         this._play_button.visible = true;
         this._logo.visible = true;
         this.ClearPipes();
+        this._floor.Reset();
 
         if (this._score > this._highScore) {
             this._highScore = this._score;

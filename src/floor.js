@@ -16,27 +16,33 @@ var FloorLayer = cc.Layer.extend({
     init: function () {
         this._super();
         this.sprite = new cc.Sprite(res.road_base_png);
-        this.sprite.setPosition(0, 0);
-        this.sprite.setAnchorPoint(0, 0);
-        this.addChild(this.sprite);
-
         this.sprite2 = new cc.Sprite(res.road_base_png);
-        this.sprite2.setPosition(this.sprite.width, 0);
-        this.sprite2.setAnchorPoint(0, 0);
+
+        this.Reset();
+
+        this.addChild(this.sprite);
         this.addChild(this.sprite2);
     },
 
-    Start: function () {
+    Reset: function () {
         this.sprite.stopAllActions();
         this.sprite2.stopAllActions();
-        this.state = floor_state_moving;
-        var time = this.screenWidth / pipeMaxUpPixels;
 
         this.sprite.setPosition(0, 0);
         this.sprite.setAnchorPoint(0, 0);
+        this.sprite2.setPosition(this.sprite.width, 0);
+        this.sprite2.setAnchorPoint(0, 0);
+    },
+
+    Start: function () {
+        this.Reset();
+
+        this.state = floor_state_moving;
+        var time = this.screenWidth / pipeMaxUpPixels;
+
         var destination = cc.p(-this.sprite.width, 0);
         var actionMove = cc.moveTo(time * 3, destination);
-        var actionMoveDone = cc.callFunc(this.ReachedDestination, this);
+        var actionMoveDone = cc.callFunc(this.Start, this);
         this.sprite.runAction(cc.sequence(actionMove, actionMoveDone));
         this.sprite.runAction(actionMove);
 
@@ -50,24 +56,5 @@ var FloorLayer = cc.Layer.extend({
         this.sprite.stopAllActions();
         this.sprite2.stopAllActions();
         this.state = floor_state_stopped;
-    },
-
-    ReachedDestination: function (sender) {
-        this.sprite.stopAllActions();
-        this.sprite2.stopAllActions();
-        this.state = floor_state_moving;
-        var time = this.screenWidth / pipeMaxUpPixels;
-
-        this.sprite.setPosition(0, 0);
-        var destination = cc.p(-this.sprite.width, 0);
-        var actionMove = cc.moveTo(time * 3, destination);
-        var actionMoveDone = cc.callFunc(this.ReachedDestination, this);
-        this.sprite.runAction(cc.sequence(actionMove, actionMoveDone));
-        this.sprite.runAction(actionMove);
-
-        var destination2 = cc.p(0, 0);
-        this.sprite2.setPosition(this.sprite.width, 0);
-        var actionMove2 = cc.moveTo(time * 3, destination2);
-        this.sprite2.runAction(actionMove2);
     }
 });
