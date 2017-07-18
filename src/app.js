@@ -83,6 +83,14 @@ var MainLayer = cc.Layer.extend({
 
             if (this._bird.y < this._floor.height) {
                 gameOver = true;
+            } else {
+                var BirdCollisionBox = this._bird.getBoundingBox();
+                for (var i = 0, len = ArrayPipes.length; i < len; i++) {
+                    if (cc.rectIntersectsRect(ArrayPipes[i].getBoundingBox(), BirdCollisionBox)) {
+                        console.log('collision');
+                        gameOver = true;
+                    }
+                }
             }
 
             if (!gameOver) {
@@ -262,7 +270,7 @@ var MainLayer = cc.Layer.extend({
 
         var newPipe = new PipeSprite(res.pipe_png);
         newPipe.Initialise(pipeSpeed, size.width, pipeOffsetX, pipeInActiveX, this._floor.height);
-        this.addChild(newPipe, z_index_pipe);
+        this.addChild(newPipe, 2);
         ArrayPipes[ArrayPipes.length] = newPipe;
         console.log('made tube num:' + ArrayPipes.length);
         return newPipe;

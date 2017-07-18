@@ -24,8 +24,8 @@ var z_index_background = 0;
 var z_index_label = 20;
 var z_index_bird = 100;
 var z_index_button = 15;
-var z_index_floor = 5;
-var z_index_pipe = 35;
+var z_index_floor = 10;
+var z_index_pipe = 4;
 
 var bird_state_moving = 1;
 var bird_state_stopped = 0;
