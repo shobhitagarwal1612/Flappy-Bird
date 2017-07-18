@@ -131,7 +131,7 @@ var MainLayer = cc.Layer.extend({
                             console.log('collision');
                             gameOver = true;
                         } else if (!pipe.scored && (pipe.getBoundingBox().x + pipe.getBoundingBox().width) <
-                            this._bird.sprite.getBoundingBox().x) {
+                            this._bird.x + this._bird.sprite.getBoundingBox().x) {
                             ArrayPipes[i].scored = true;
                             this._score += pipeScore;
                             this.setScoreLabels();
