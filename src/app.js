@@ -197,21 +197,21 @@ var MainLayer = cc.Layer.extend({
         tar._bird.SetStartSpeed();
 
 
-       /*  var angle = 0;
-        if (tar._bird.speedY >= 0) {
-            angle = 0.1;
-        } else {
-            angle = -0.1;
-        }
+        /*  var angle = 0;
+         if (tar._bird.speedY >= 0) {
+             angle = 0.1;
+         } else {
+             angle = -0.1;
+         }
 
-        if (angle > 45) {
-            angle = 45;
-        } else if (angle < -90) {
-            angle = -90;
-        }
+         if (angle > 45) {
+             angle = 45;
+         } else if (angle < -90) {
+             angle = -90;
+         }
 
-        var rotate = cc.RotateBy.create(0.2, tar._bird.rotation + angle);
-        tar._bird.runAction(rotate); */
+         var rotate = cc.RotateBy.create(0.2, tar._bird.rotation + angle);
+         tar._bird.runAction(rotate); */
 
     },
 
@@ -248,7 +248,11 @@ var MainLayer = cc.Layer.extend({
 
     GameOver: function () {
         console.log('game over');
+        if (this._score > this._highScore) {
+            this._highScore = this._score;
+        }
         this._resultBoard.setScore(this._score, this._highScore);
+
         this._processTouch = false;
         this._gameOverLabel.visible = true;
         this._resultBoard.visible = true;
