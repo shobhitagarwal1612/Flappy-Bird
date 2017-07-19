@@ -86,10 +86,6 @@ var MainLayer = cc.Layer.extend({
         this._scoreLabel.string = this._score.toString();
     },
 
-    addLabel: function (text, x, y, visible, zIndex, color, fsize) {
-
-    },
-
     onEnter: function () {
         this._super();
         cc.eventManager.addListener({
@@ -162,6 +158,25 @@ var MainLayer = cc.Layer.extend({
     onTouchBegan: function (touch, event) {
         var target = event.getCurrentTarget();
 
+        if (target._bird == undefined) {
+            target = target.parent;
+        }
+
+        if (target._processTouch && target._bird.state == bird_state_moving) {
+            var angle = target._bird.sprite.rotation;
+
+            if (angle >= 360) {
+                var x = Math.floor(angle / 360);
+                angle -= x * 360;
+            }
+
+            var actionUp = cc.RotateBy.create(0.1, -angle - 60);
+            var actionDown = cc.RotateBy.create(0.3, 150);
+            target._bird.sprite.runAction(cc.sequence(actionUp, actionDown));
+        }
+
+        target = event.getCurrentTarget();
+
         var locationInNode = target.convertToNodeSpace(touch.getLocation());
         var s = target.getContentSize();
         var rect = cc.rect(0, 0, s.width, s.height);
@@ -189,30 +204,11 @@ var MainLayer = cc.Layer.extend({
             if (!tar._gameStarted) {
                 tar.StartGame();
             }
+            if (tar._bird.state == bird_state_stopped) {
+                tar._bird.state = bird_state_moving;
+            }
+            tar._bird.SetStartSpeed();
         }
-
-        if (tar._bird.state == bird_state_stopped) {
-            tar._bird.state = bird_state_moving;
-        }
-        tar._bird.SetStartSpeed();
-
-
-       /*  var angle = 0;
-        if (tar._bird.speedY >= 0) {
-            angle = 0.1;
-        } else {
-            angle = -0.1;
-        }
-
-        if (angle > 45) {
-            angle = 45;
-        } else if (angle < -90) {
-            angle = -90;
-        }
-
-        var rotate = cc.RotateBy.create(0.2, tar._bird.rotation + angle);
-        tar._bird.runAction(rotate); */
-
     },
 
     StopPipes: function () {
@@ -258,6 +254,7 @@ var MainLayer = cc.Layer.extend({
 
     ReEnableAfterGameOver: function () {
         this._bird.y = this._middleY;
+        this._bird.sprite.rotation = 0;
         this._processTouch = true;
         this._gameOverLabel.visible = false;
         this._resultBoard.visible = false;
