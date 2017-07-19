@@ -12,6 +12,7 @@ var res = {
     tap_tap_png: "res/tap_tap.png",
     flapping_flappy_png: "res/flapping_flappy.png",
     flapping_flappy_plist: "res/flapping_flappy.plist",
+    font: "res/FlappyBirdy.ttf",
 };
 
 var g_resources = [];
@@ -33,10 +34,10 @@ var bird_state_stopped = 0;
 var bird_start_speedY = 300;
 var bird_startX = 240;
 
-var gravity = -620;
+var gravity = -750;
 
 var reenableTime = 2.5;
-var pipeSpawnMinTime = 2.5;
+var pipeSpawnMinTime = 2.2;
 var pipeSpawnTimeVariance = 8;
 
 var singleGapTop = 440;
@@ -64,8 +65,8 @@ var pipeScore = 1;
 
 var pipeMaxUpPixels = 180;
 
-var pipeSpeed = 70.0;
+var pipeSpeed = 100.0;
 
 var fontSizeGameOver = 48;
 var fontSizeScore = 32;
-var fontName = 'Courier';
+var fontName = res.font;

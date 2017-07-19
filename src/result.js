@@ -22,9 +22,9 @@ var ResultLayer = cc.Layer.extend({
 
         var medal = null;
 
-        if (score >= 5) {
+        if (score >= 50) {
             medal = this._medal_gold;
-        } else if (score >= 2) {
+        } else if (score >= 20) {
             medal = this._medal_silver;
         }
 
