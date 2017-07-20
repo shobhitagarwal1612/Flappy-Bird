@@ -36,7 +36,7 @@ var bird_startX = 240;
 
 var gravity = -750;
 
-var pipeSpawnMinTime = 2;
+var pipeSpawnMinTime = 1.5;
 var pipeSpawnTimeVariance = 8;
 
 var singleGapTop = 440;
