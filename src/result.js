@@ -10,7 +10,13 @@ var ResultLayer = cc.Layer.extend({
 
         this._result_board = new cc.Sprite(res.result_board_png);
         this._medal_silver = new cc.Sprite(res.medal_silver_png);
+        this._medal_silver.x = -105;
+        this._medal_silver.y = -15;
+        this.addChild(this._medal_silver, 1);
         this._medal_gold = new cc.Sprite(res.medal_gold_png);
+        this._medal_gold.x = -105;
+        this._medal_gold.y = -15;
+        this.addChild(this._medal_gold, 1);
         this._scoreLabel = this.addLabel("0", 120, 22);
         this._highScoreLabel = this.addLabel("0", 120, -45);
 
@@ -20,16 +26,13 @@ var ResultLayer = cc.Layer.extend({
     setScore: function (score, highscore) {
         var medal = null;
 
-        if (score >= 50) {
-            medal = this._medal_gold;
-        } else if (score >= 20) {
-            medal = this._medal_silver;
-        }
+        this._medal_silver.visible = false;
+        this._medal_gold.visible = false;
 
-        if (medal != null) {
-            medal.x = -105;
-            medal.y = -15;
-            this.addChild(medal, 1);
+        if (score >= 50) {
+            this._medal_gold.visible = true;
+        } else if (score >= 20) {
+            this._medal_silver.visible = true;
         }
 
         this._scoreLabel.string = score;
