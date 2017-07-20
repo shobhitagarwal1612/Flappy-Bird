@@ -310,25 +310,6 @@ var MainLayer = cc.Layer.extend({
         this._resultBoard.visible = true;
         this._play_button.visible = true;
         this.StopGame();
-        // this.scheduleOnce(this.ReEnableAfterGameOver, reenableTime);
-    },
-
-    ReEnableAfterGameOver: function () {
-        this._bird.y = this._middleY;
-        this._processTouch = true;
-        this._gameOverLabel.visible = false;
-        this._resultBoard.visible = false;
-        this._play_button.visible = true;
-        this._logo.visible = true;
-        this.ClearPipes();
-        this._bird.StartFlapping();
-        this._bird.StartVerticalMovement();
-
-        if (this._score > this._highScore) {
-            this._highScore = this._score;
-        }
-        this._score = 0;
-        this.setScoreLabels();
     },
 
     SetSpawnTime: function () {

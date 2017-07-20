@@ -36,7 +36,6 @@ var bird_startX = 240;
 
 var gravity = -750;
 
-var reenableTime = 2.5;
 var pipeSpawnMinTime = 2;
 var pipeSpawnTimeVariance = 8;
 
