@@ -65,6 +65,12 @@ var MainLayer = cc.Layer.extend({
         this._gameReadyLabel.visible = false;
         this.addChild(this._gameReadyLabel, z_index_bird);
 
+        this._tapTapLabel = new cc.Sprite(res.tap_tap_png);
+        this._tapTapLabel.x = size.width / 2 + 50;
+        this._tapTapLabel.y = size.height / 2;
+        this._tapTapLabel.visible = false;
+        this.addChild(this._tapTapLabel, z_index_bird);
+
         this._gameOverLabel = new cc.Sprite(res.game_over_png);
         this._gameOverLabel.x = size.width / 2;
         this._gameOverLabel.y = size.height / 2 * 1.5;
@@ -244,6 +250,8 @@ var MainLayer = cc.Layer.extend({
         this._lastPipeType = pipeTypeNone;
         this._lastGetUnderY = this._middleY;
         this._gameReadyLabel.visible = false;
+        this._tapTapLabel.visible = false;
+        this._bird.x += 100;
     },
 
     GetReady: function () {
@@ -254,6 +262,8 @@ var MainLayer = cc.Layer.extend({
         this._logo.visible = false;
         this._play_button.visible = false;
         this._gameReadyLabel.visible = true;
+        this._bird.x -= 100;
+        this._tapTapLabel.visible = true;
         this._bird.state = bird_state_moving;
     },
 
