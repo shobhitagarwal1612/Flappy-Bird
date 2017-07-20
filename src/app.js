@@ -289,6 +289,7 @@ var MainLayer = cc.Layer.extend({
         }
         this._resultBoard.setScore(this._score, this._highScore);
         this._bird.StopVerticalMovement();
+        this._bird.StopFlapping();
 
         this._processTouch = false;
         this._gameOverLabel.visible = true;
@@ -305,6 +306,7 @@ var MainLayer = cc.Layer.extend({
         this._play_button.visible = true;
         this._logo.visible = true;
         this.ClearPipes();
+        this._bird.StartFlapping();
         this._bird.StartVerticalMovement();
 
         if (this._score > this._highScore) {

@@ -52,6 +52,10 @@ var BirdLayer = cc.Layer.extend({
         this.StartFlapping();
     },
 
+    StopFlapping: function(){
+        this.sprite.stopAllActions();
+    },
+
     StopActions: function () {},
 
     UpdateBird: function (dt) {
