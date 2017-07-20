@@ -59,6 +59,12 @@ var MainLayer = cc.Layer.extend({
         this._score = 0;
         this._highScore = 0;
 
+        this._gameReadyLabel = new cc.Sprite(res.get_ready_png);
+        this._gameReadyLabel.x = size.width / 2;
+        this._gameReadyLabel.y = size.height / 2 * 1.5;
+        this._gameReadyLabel.visible = false;
+        this.addChild(this._gameReadyLabel, z_index_bird);
+
         this._gameOverLabel = new cc.Sprite(res.game_over_png);
         this._gameOverLabel.x = size.width / 2;
         this._gameOverLabel.y = size.height / 2 * 1.5;
@@ -186,8 +192,13 @@ var MainLayer = cc.Layer.extend({
 
         if (tar._processTouch) {
             tar._bird.SetStartSpeed();
-            if (!tar._gameStarted) {
+
+            if (tar._ready && !tar._gameStarted) {
                 tar.StartGame();
+            }
+
+            if (!tar._gameStarted) {
+                tar.GetReady();
             }
         }
 
@@ -228,18 +239,27 @@ var MainLayer = cc.Layer.extend({
     },
 
     StartGame: function () {
-        this._bird.state = bird_state_moving;
+        console.log('game started');
         this._gameStarted = true;
-        this._processTouch = true;
         this._lastPipeType = pipeTypeNone;
         this._lastGetUnderY = this._middleY;
-        this._play_button.visible = false;
-        this._logo.visible = false;
+        this._gameReadyLabel.visible = false;
+    },
+
+    GetReady: function () {
+        console.log('game ready');
+        this._ready = true;
+        this._processTouch = true;
         this._scoreLabel.visible = true;
+        this._logo.visible = false;
+        this._play_button.visible = false;
+        this._gameReadyLabel.visible = true;
+        this._bird.state = bird_state_moving;
     },
 
     StopGame: function () {
         this._gameStarted = false;
+        this._ready = false;
         this._gameTime = 0;
         this._nextSpawnTime = 0.2;
         this._scoreLabel.visible = false;
