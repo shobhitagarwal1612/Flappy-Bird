@@ -81,7 +81,7 @@ var MainLayer = cc.Layer.extend({
 
         this._resultBoard = new ResultLayer();
         this._resultBoard.x = size.width / 2;
-        this._resultBoard.y = size.height / 2;
+        this._resultBoard.y = size.height / 2 + 50;
         this._resultBoard.visible = false;
         this.addChild(this._resultBoard, z_index_bird);
 
@@ -193,7 +193,7 @@ var MainLayer = cc.Layer.extend({
         var tar = event.getCurrentTarget();
         tar.setOpacity(255);
 
-        if (tar._play_button == undefined && tar._gameOverLabel == undefined) {
+        if (tar._play_button == undefined) {
             tar = tar.parent;
             tar._processTouch = true;
         } else {
@@ -271,6 +271,20 @@ var MainLayer = cc.Layer.extend({
         this._bird.x -= 100;
         this._tapTapLabel.visible = true;
         this._bird.state = bird_state_moving;
+
+        this._bird.y = this.screenHeight / 2;
+        this._processTouch = true;
+        this._gameOverLabel.visible = false;
+        this._resultBoard.visible = false;
+        this.ClearPipes();
+        this._bird.StartFlapping();
+        this._bird.StartVerticalMovement();
+
+        if (this._score > this._highScore) {
+            this._highScore = this._score;
+        }
+        this._score = 0;
+        this.setScoreLabels();
     },
 
     StopGame: function () {
@@ -294,8 +308,9 @@ var MainLayer = cc.Layer.extend({
         this._processTouch = false;
         this._gameOverLabel.visible = true;
         this._resultBoard.visible = true;
+        this._play_button.visible = true;
         this.StopGame();
-        this.scheduleOnce(this.ReEnableAfterGameOver, reenableTime);
+        // this.scheduleOnce(this.ReEnableAfterGameOver, reenableTime);
     },
 
     ReEnableAfterGameOver: function () {
