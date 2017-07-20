@@ -64,7 +64,7 @@ var pipeScore = 1;
 
 var pipeMaxUpPixels = 180;
 
-var pipeSpeed = 100.0;
+var pipeSpeed = 150.0;
 
 var fontSizeGameOver = 48;
 var fontSizeScore = 32;

@@ -216,24 +216,6 @@ var MainLayer = cc.Layer.extend({
             tar._bird.state = bird_state_moving;
         }
         tar._bird.SetStartSpeed();
-
-
-        /*  var angle = 0;
-         if (tar._bird.speedY >= 0) {
-             angle = 0.1;
-         } else {
-             angle = -0.1;
-         }
-
-         if (angle > 45) {
-             angle = 45;
-         } else if (angle < -90) {
-             angle = -90;
-         }
-
-         var rotate = cc.RotateBy.create(0.2, tar._bird.rotation + angle);
-         tar._bird.runAction(rotate); */
-
     },
 
     StopPipes: function () {

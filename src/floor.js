@@ -36,7 +36,7 @@ var FloorLayer = cc.Layer.extend({
     Start: function () {
         this.Reset();
 
-        var time = this.screenWidth / pipeMaxUpPixels;
+        var time = this.screenWidth / pipeSpeed;
 
         var destination = cc.p(-this.sprite.width, 0);
         var actionMove = cc.moveTo(time * 3, destination);
