@@ -120,6 +120,13 @@ var MainLayer = cc.Layer.extend({
             onTouchEnded: this.onTouchEnded,
         }, this);
 
+        cc.eventManager.addListener({
+            event: cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            onTouchBegan: this.onTouchBegan,
+            onTouchEnded: this.onTouchEnded,
+        }, this._tapTapLabel);
+
         this._floor.Start(this._floor);
         this.schedule(this.onTick);
         this.StopGame();
