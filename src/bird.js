@@ -14,25 +14,45 @@ var BirdLayer = cc.Layer.extend({
     init: function () {
         this._super();
 
-        // create sprite sheet
         cc.spriteFrameCache.addSpriteFrames(res.flapping_flappy_plist);
-        this.spriteSheet = new cc.SpriteBatchNode(res.flapping_flappy_png);
-        this.addChild(this.spriteSheet);
 
-        // init runningAction
-        var animFrames = [];
+        this._animFrames = [];
         for (var i = 1; i <= 3; i++) {
             var str = "bird" + i + ".png";
             var frame = cc.spriteFrameCache.getSpriteFrame(str);
-            animFrames.push(frame);
+            this._animFrames.push(frame);
         }
 
-        var animation = new cc.Animation(animFrames, 0.1);
-        this.runningAction = new cc.RepeatForever(new cc.Animate(animation));
+        this.spriteSheet = new cc.SpriteBatchNode(res.flapping_flappy_png);
+        this.addChild(this.spriteSheet);
+
         this.sprite = new cc.Sprite("#bird1.png");
-        this.sprite.runAction(this.runningAction);
         this.spriteSheet.addChild(this.sprite);
+
+        this.StartFlapping();
     },
+
+    StartFlapping: function () {
+        var animation = new cc.Animation(this._animFrames, 0.1);
+        this.flappingAction = new cc.RepeatForever(new cc.Animate(animation));
+        this.sprite.runAction(this.flappingAction);
+    },
+
+    StartVerticalMovement: function () {
+        this.sprite.x = 0;
+        this.sprite.y = 0;
+        var motionUp = new cc.MoveBy(0.2, cc.p(this.sprite.x, this.sprite.y + 10));
+        var motionDown = new cc.MoveBy(0.2, cc.p(this.sprite.x, this.sprite.y - 10));
+        this.vMotion = new cc.RepeatForever(cc.sequence(motionUp, motionDown));
+        this.sprite.runAction(this.vMotion);
+    },
+
+    StopVerticalMovement: function () {
+        this.sprite.stopAllActions();
+        this.StartFlapping();
+    },
+
+    StopActions: function () {},
 
     UpdateBird: function (dt) {
         if (this.state == bird_state_moving) {

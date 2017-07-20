@@ -18,8 +18,6 @@ var ResultLayer = cc.Layer.extend({
     },
 
     setScore: function (score, highscore) {
-        console.log(score, highscore);
-
         var medal = null;
 
         if (score >= 50) {

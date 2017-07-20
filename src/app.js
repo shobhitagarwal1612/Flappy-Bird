@@ -3,12 +3,14 @@ var ArrayPipes = [];
 var MainLayer = cc.Layer.extend({
 
     screenWidth: 0,
+    screenHeight: 0,
 
     ctor: function () {
         this._super();
 
         var size = cc.winSize;
         this.screenWidth = size.width;
+        this.screenHeight = size.height;
 
         var background = new cc.Sprite(res.background_png);
         background.attr({
@@ -121,6 +123,8 @@ var MainLayer = cc.Layer.extend({
         this._floor.Start(this._floor);
         this.schedule(this.onTick);
         this.StopGame();
+
+        this._bird.StartVerticalMovement();
     },
 
     onTick: function (dt) {
@@ -189,7 +193,7 @@ var MainLayer = cc.Layer.extend({
         var tar = event.getCurrentTarget();
         tar.setOpacity(255);
 
-        if (tar._play_button == undefined) {
+        if (tar._play_button == undefined && tar._gameOverLabel == undefined) {
             tar = tar.parent;
             tar._processTouch = true;
         } else {
@@ -251,7 +255,9 @@ var MainLayer = cc.Layer.extend({
         this._lastGetUnderY = this._middleY;
         this._gameReadyLabel.visible = false;
         this._tapTapLabel.visible = false;
-        this._bird.x += 100;
+        this._bird.x = this.screenWidth / 2;
+        this._bird.y = this.screenHeight / 2;
+        this._bird.StopVerticalMovement();
     },
 
     GetReady: function () {
@@ -282,6 +288,7 @@ var MainLayer = cc.Layer.extend({
             this._highScore = this._score;
         }
         this._resultBoard.setScore(this._score, this._highScore);
+        this._bird.StopVerticalMovement();
 
         this._processTouch = false;
         this._gameOverLabel.visible = true;
@@ -298,6 +305,7 @@ var MainLayer = cc.Layer.extend({
         this._play_button.visible = true;
         this._logo.visible = true;
         this.ClearPipes();
+        this._bird.StartVerticalMovement();
 
         if (this._score > this._highScore) {
             this._highScore = this._score;
