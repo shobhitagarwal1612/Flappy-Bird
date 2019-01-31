@@ -28,7 +28,6 @@ var BirdLayer = cc.Layer.extend({
 
         this.sprite = new cc.Sprite("#bird1.png");
         this.spriteSheet.addChild(this.sprite);
-
         this.StartFlapping();
     },
 
@@ -53,6 +52,7 @@ var BirdLayer = cc.Layer.extend({
     },
 
     StopFlapping: function(){
+        this.sprite.rotation = 0;
         this.sprite.stopAllActions();
     },
 

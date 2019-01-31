@@ -185,6 +185,22 @@ var MainLayer = cc.Layer.extend({
     onTouchBegan: function (touch, event) {
         var target = event.getCurrentTarget();
 
+        if (target._bird == undefined) {
+            target = target.parent;
+        }
+
+
+        if (target._processTouch && target._bird.state == bird_state_moving) {
+        
+            target._bird.sprite.rotation = -40;
+            
+            setTimeout(function(){
+                target._bird.sprite.rotation = 20;
+            }, 800);
+
+        }
+
+
         var locationInNode = target.convertToNodeSpace(touch.getLocation());
         var s = target.getContentSize();
         var rect = cc.rect(0, 0, s.width, s.height);
